@@ -72,7 +72,7 @@ jobs:
       - name: Set build version
         id: set-build-version
         run: |
-          if [[ $GITHUB_REF_NAME == "develop" || $GITHUB_REF_NAME == "Develop" ]]; then
+          if [[ $GITHUB_REF_NAME == "Main" || $GITHUB_REF_NAME == "main" ]]; then
             echo "build-version=${{ inputs.major }}.${{ inputs.minor }}.${{ github.run_number }}"  >> $GITHUB_OUTPUT
           else
             REFNAME="build-version=${{ inputs.major }}.${{ inputs.minor }}.${{ github.run_number }}-${{ github.ref_name }}" 
