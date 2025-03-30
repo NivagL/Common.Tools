@@ -33,29 +33,20 @@ jobs:
         registry-url: 'https://npm.pkg.github.com/'
         scope: '@${{ github.repository_owner }}'
     
-    - name: Set version
-      run: |
-        VERSION=${{ input.version }}
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-        # Update package.json version
-        npm version $VERSION --no-git-tag-version --prefix npm
-
     - name: Generate index.ts for TypeScript models
-      run: |
-        cd npm
-        node generate-index.js
+      run: node generate-index.js
+      working-directory: ./npm
     
     - name: Build npm package
       run: |
-        cd npm
         # Use regular npm install instead of npm ci since no package-lock exists
         npm install
         # Fix: correct syntax for specifying tsconfig with tsc
         npm run build || (echo "TypeScript compilation failed" && npx tsc --listFiles --pretty)
+      working-directory: ./npm
     
     - name: Publish to GitHub Packages
-      run: |
-        cd npm
-        npm publish
+      run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
+      working-directory: ./npm
