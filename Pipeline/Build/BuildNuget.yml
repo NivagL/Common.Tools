@@ -1,0 +1,52 @@
+name: Build nuget package
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'The name of the project'
+        required: true
+        type: string
+      version:
+        description: 'The build version'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      project:
+        description: 'The name of the project'
+        required: true
+        type: string
+      version:
+        description: 'The build version'
+        required: true
+        type: string
+
+jobs:
+  - name: Setup .NET
+    uses: actions/setup-dotnet@v3
+    with:
+      dotnet-version: '8.0.x'
+    
+  - name: Restore .NET tools
+    run: dotnet tool restore --configfile nuget.config || true
+    
+  - name: Restore dependencies
+    run: dotnet restore --configfile nuget.config
+    
+  - name: Build
+    run: dotnet build --configuration Release --no-restore -p:Version=${{ steps.versioning.outputs.version }} -p:AssemblyVersion=${{ steps.versioning.outputs.version }} -p:FileVersion=${{ steps.versioning.outputs.version }} -p:PackageVersion=${{ steps.versioning.outputs.version }} -p:NuGetVersion=${{ steps.versioning.outputs.version }}
+    
+  - name: Test
+    run: dotnet test --configuration Release --no-build
+
+  - name: Remove existing GitHub Packages source if present
+    run: dotnet nuget remove source github || true
+        
+  - name: Add GitHub Packages source
+    run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_PACKAGES }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+   
+  - name: Push to GitHub Packages
+    run: dotnet nuget push ./**/bin/Release/*.nupkg --source github --skip-duplicate
+    env:
+      NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}

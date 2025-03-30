@@ -1,0 +1,88 @@
+name: Build version
+
+on:
+  workflow_dispatch:
+    inputs:
+      major:
+        description: 'The major version value'
+        required: true
+        type: string
+      minor:
+        description: 'The minor version value'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      major:
+        description: 'The major version value'
+        required: true
+        type: string
+      minor:
+        description: 'The minor version value'
+        required: true
+        type: string
+    outputs:
+      build-major:
+        description: 'The build major version value'
+        value: ${{ jobs.set-version-variables.outputs.job-major }}
+      build-minor:
+        description: 'The build minor version value'
+        value: ${{ jobs.set-version-variables.outputs.job-minor }}
+      build-id:
+        description: 'The build number for this build'
+        value: ${{ jobs.set-version-variables.outputs.job-build-id }}
+      build-label:
+        description: 'The build pre release label'
+        value: ${{ jobs.set-version-variables.outputs.job-build-label }}
+      build-version:
+        description: 'The full version string for the build'
+        value: ${{ jobs.set-version-variables.outputs.job-build-version }}
+
+jobs:
+  set-version-variables:
+    runs-on: ubuntu-latest
+    outputs:
+      job-major: ${{ steps.set-build-major.outputs.build-major }}
+      job-minor: ${{ steps.set-build-minor.outputs.build-minor }}
+      job-build-id: ${{ steps.set-build-id.outputs.build-id }}
+      job-build-label: ${{ steps.set-build-label.outputs.build-label }}
+      job-build-version: ${{ steps.set-build-version.outputs.build-version }}
+    steps:
+      - name: Set build major
+        id: set-build-major
+        run: echo "build-major=${{ inputs.major }}" >> $GITHUB_OUTPUT
+
+      - name: Set build minor
+        id: set-build-minor
+        run: echo "build-minor=${{ inputs.minor }}" >> $GITHUB_OUTPUT
+
+      - name: Set build id
+        id: set-build-id
+        run: echo "build-id=$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: Set build label
+        id: set-build-label
+        run: |
+          if [[ $GITHUB_REF_NAME == "Main" || $GITHUB_REF_NAME == "main" ]]; then
+            echo "build-label=" >> $GITHUB_OUTPUT
+          else
+            echo "build-label=$GITHUB_REF_NAME" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set build version
+        id: set-build-version
+        run: |
+          if [[ $GITHUB_REF_NAME == "develop" || $GITHUB_REF_NAME == "Develop" ]]; then
+            echo "build-version=${{ inputs.major }}.${{ inputs.minor }}.${{ github.run_number }}"  >> $GITHUB_OUTPUT
+          else
+            REFNAME="build-version=${{ inputs.major }}.${{ inputs.minor }}.${{ github.run_number }}-${{ github.ref_name }}" 
+            echo "${REFNAME////-}"  >> $GITHUB_OUTPUT
+          fi
+
+      - name: Echo components
+        run: |
+          echo "Major version: ${{ steps.set-build-major.outputs.build-major }}"
+          echo "Minor version: ${{ steps.set-build-minor.outputs.build-minor }}"
+          echo "Build id: ${{ steps.set-build-id.outputs.build-id }}"
+          echo "Build label: ${{ steps.set-build-label.outputs.build-label }}"
+          echo "Build version: ${{ steps.set-build-version.outputs.build-version }}"

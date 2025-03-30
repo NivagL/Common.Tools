@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipeline", "Pipeline", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{EDB6F10F-DFC6-4A36-9ADE-9668E10C9501}"
+	ProjectSection(SolutionItems) = preProject
+		Pipeline\Build\BuildNpm.yml = Pipeline\Build\BuildNpm.yml
+		Pipeline\Build\BuildNuget.yml = Pipeline\Build\BuildNuget.yml
+		Pipeline\Build\BuildVersion.yml = Pipeline\Build\BuildVersion.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{BE38AAF7-178E-426B-8E9D-C2F6BF07EC2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{2DD8CD16-ED94-4D24-AC6A-C752CDC3B68C}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EDB6F10F-DFC6-4A36-9ADE-9668E10C9501} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{BE38AAF7-178E-426B-8E9D-C2F6BF07EC2C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2DD8CD16-ED94-4D24-AC6A-C752CDC3B68C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90415D47-503E-4763-AF3F-4BE966AA5984}
+	EndGlobalSection
+EndGlobal

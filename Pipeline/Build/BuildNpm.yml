@@ -1,0 +1,58 @@
+name: Build npm package
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'The name of the project'
+        required: true
+        type: string
+      version:
+        description: 'The build version'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      project:
+        description: 'The name of the project'
+        required: true
+        type: string
+      version:
+        description: 'The build version'
+        required: true
+        type: string
+
+jobs:
+  - name: Setup Node.js
+    uses: actions/setup-node@v3
+    with:
+      node-version: '18'
+      registry-url: 'https://npm.pkg.github.com/'
+      scope: '@${{ github.repository_owner }}'
+    
+  - name: Set version
+    run: |
+      VERSION=${{ input.version }}
+      echo "VERSION=$VERSION" >> $GITHUB_ENV
+      # Update package.json version
+      npm version $VERSION --no-git-tag-version --prefix npm
+
+  - name: Generate index.ts for TypeScript models
+    run: |
+      cd npm
+      node generate-index.js
+    
+  - name: Build npm package
+    run: |
+      cd npm
+      # Use regular npm install instead of npm ci since no package-lock exists
+      npm install
+      # Fix: correct syntax for specifying tsconfig with tsc
+      npm run build || (echo "TypeScript compilation failed" && npx tsc --listFiles --pretty)
+    
+  - name: Publish to GitHub Packages
+    run: |
+      cd npm
+      npm publish
+    env:
+      NODE_AUTH_TOKEN: ${{ GH_PACKAGES }}
