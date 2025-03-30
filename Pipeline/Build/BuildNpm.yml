@@ -55,4 +55,4 @@ jobs:
       cd npm
       npm publish
     env:
-      NODE_AUTH_TOKEN: ${{ GH_PACKAGES }}
+      NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
