@@ -35,7 +35,12 @@ jobs:
     
     - name: Generate index.ts for TypeScript models
       run: node generate-index.js
-      working-directory: ./npm
+      working-directory: ${{ github.workspace }}/.
+
+    - name: Download typescript model files
+      uses: actions/download-artifact@v3
+      with:
+        name: model-typescript-artifact
     
     - name: Build npm package
       run: |
@@ -43,10 +48,10 @@ jobs:
         npm install
         # Fix: correct syntax for specifying tsconfig with tsc
         npm run build || (echo "TypeScript compilation failed" && npx tsc --listFiles --pretty)
-      working-directory: ./npm
+      working-directory: ${{ github.workspace }}/.
     
     - name: Publish to GitHub Packages
       run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
-      working-directory: ./npm
+      working-directory: ${{ github.workspace }}/.
