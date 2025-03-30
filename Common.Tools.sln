@@ -16,6 +16,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{BE38AAF7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{2DD8CD16-ED94-4D24-AC6A-C752CDC3B68C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{FD3FF18D-9693-405E-8785-E28695F18B92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bicep", "Bicep", "{9E73FDEA-6B33-45DA-91DE-F14FBAF2C687}"
+	ProjectSection(SolutionItems) = preProject
+		Pipeline\Infra\azure\bicep\appservice.bicep = Pipeline\Infra\azure\bicep\appservice.bicep
+		Pipeline\Infra\azure\bicep\keyvault.bicep = Pipeline\Infra\azure\bicep\keyvault.bicep
+		Pipeline\Infra\azure\bicep\main.bicep = Pipeline\Infra\azure\bicep\main.bicep
+		Pipeline\Infra\azure\bicep\sql.bicep = Pipeline\Infra\azure\bicep\sql.bicep
+		Pipeline\Infra\azure\bicep\storage.bicep = Pipeline\Infra\azure\bicep\storage.bicep
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -24,6 +35,8 @@ Global
 		{EDB6F10F-DFC6-4A36-9ADE-9668E10C9501} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{BE38AAF7-178E-426B-8E9D-C2F6BF07EC2C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{2DD8CD16-ED94-4D24-AC6A-C752CDC3B68C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{FD3FF18D-9693-405E-8785-E28695F18B92} = {BE38AAF7-178E-426B-8E9D-C2F6BF07EC2C}
+		{9E73FDEA-6B33-45DA-91DE-F14FBAF2C687} = {FD3FF18D-9693-405E-8785-E28695F18B92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90415D47-503E-4763-AF3F-4BE966AA5984}

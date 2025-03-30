@@ -29,5 +29,5 @@ resource database 'Microsoft.Sql/servers/databases@2022-02-01-preview' = {
   }
 }
 
-output connectionString string = 'Server=tcp:${sqlServer.name}.database.windows.net,1433;Initial Catalog=${prefix}-database;Persist Security Info=False;User ID=sqladminuser;Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+output connectionString string = ''
 output sqlAdminPassword string = sqlAdminPassword
