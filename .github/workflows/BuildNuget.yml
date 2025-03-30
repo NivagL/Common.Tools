@@ -21,35 +21,49 @@ on:
         description: 'The build version'
         required: true
         type: string
+    secrets:
+      GH_PACKAGES:
+        description: 'GitHub Packages token'
+        required: true
 
 jobs:
-  run-nuget-build:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '8.0.x'
-    
-    - name: Restore .NET tools
-      run: dotnet tool restore --configfile nuget.config || true
-    
-    - name: Restore dependencies
-      run: dotnet restore --configfile nuget.config
-    
-    - name: Build
-      run: dotnet build --configuration Release --no-restore -p:Version=${{ steps.versioning.outputs.version }} -p:AssemblyVersion=${{ steps.versioning.outputs.version }} -p:FileVersion=${{ steps.versioning.outputs.version }} -p:PackageVersion=${{ steps.versioning.outputs.version }} -p:NuGetVersion=${{ steps.versioning.outputs.version }}
-    
-    - name: Test
-      run: dotnet test --configuration Release --no-build
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Remove existing GitHub Packages source if present
-      run: dotnet nuget remove source github || true
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+    
+      - name: Restore .NET tools
+        run: dotnet tool restore --configfile nuget.config || true
+        working-directory: ${{ github.workspace }}/.
+    
+      - name: Restore dependencies
+        run: dotnet restore --configfile nuget.config
+        working-directory: ${{ github.workspace }}/.
+    
+      - name: Build
+        run: dotnet build --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
+        working-directory: ${{ github.workspace }}/.
+    
+      - name: Test
+        run: dotnet test --configuration Release --no-build
+        working-directory: ${{ github.workspace }}/.
+
+      - name: Remove existing GitHub Packages source if present
+        run: dotnet nuget remove source github || true
+        working-directory: ${{ github.workspace }}/.
         
-    - name: Add GitHub Packages source
-      run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_PACKAGES }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      - name: Add GitHub Packages source
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_PACKAGES }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+        working-directory: ${{ github.workspace }}/.
    
-    - name: Push to GitHub Packages
-      run: dotnet nuget push ./**/bin/Release/*.nupkg --source github --skip-duplicate
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
+      - name: Push to GitHub Packages
+        run: dotnet nuget push ./**/bin/Release/*.nupkg --source github --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
+        working-directory: ${{ github.workspace }}/.
