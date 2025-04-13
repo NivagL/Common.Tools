@@ -64,7 +64,7 @@ jobs:
 ###############################################################
 
       - name: Test
-        run: dotnet test --configuration Release --no-build --category Unit 
+        run: dotnet test --configuration Release --no-build --filter "TestCategory=Unit"
         working-directory: ${{ github.workspace }}/.
 
 ###############################################################
