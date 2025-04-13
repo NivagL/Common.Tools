@@ -42,15 +42,17 @@ jobs:
     - name: List downloaded files
       run: ls -la ${{ github.workspace }}
     
+    - name: Update package version
+      run: npm version ${{ inputs.version }} --no-git-tag-version
+      working-directory: ${{ github.workspace }}
+
     - name: Generate index.ts for TypeScript models
       run: node generate-index.js
       working-directory: ${{ github.workspace }}
     
     - name: Build npm package
       run: |
-        # Use regular npm install instead of npm ci since no package-lock exists
         npm install
-        # Fix: correct syntax for specifying tsconfig with tsc
         npm run build || (echo "TypeScript compilation failed" && npx tsc --listFiles --pretty)
       working-directory: ${{ github.workspace }}/.
     
