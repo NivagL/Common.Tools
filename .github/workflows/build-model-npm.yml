@@ -48,8 +48,19 @@ jobs:
     
     - name: Build npm package
       run: |
+        echo "Current package.json contents:"
+        cat package.json
+        
+        echo "Installing dependencies..."
         npm install
+        
+        echo "Setting version to ${{ inputs.version }}..."
         npm version ${{ inputs.version }} --no-git-tag-version
+        
+        echo "Package.json after version update:"
+        cat package.json
+        
+        echo "Building package..."
         npm run build || (echo "TypeScript compilation failed" && npx tsc --listFiles --pretty)
       working-directory: ${{ github.workspace }}/.
     
