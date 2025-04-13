@@ -75,4 +75,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: model-typescript-artifact
-          path: ${{ github.workspace }}/npm'
+          path: ${{ github.workspace }}../npm'
