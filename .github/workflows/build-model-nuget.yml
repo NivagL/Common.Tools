@@ -57,7 +57,7 @@ jobs:
         working-directory: ${{ github.workspace }}/.
 
       - name: Build and Generate TypeScript files
-        run: dotnet build --configuration Release -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }} /t:Build;TypescriptGen | true
+        run: dotnet build **/${{ input.project }}.csproj --configuration Release -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }} /t:TypescriptGen
         working-directory: ${{ github.workspace }}/.
     
 ###############################################################
