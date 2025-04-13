@@ -46,14 +46,14 @@ jobs:
         working-directory: ${{ github.workspace }}/.
     
       - name: Restore dependencies
-        run: dotnet restore ${{ inputs.project }}.sln --configfile nuget.config
+        run: dotnet restore --configfile nuget.config
         working-directory: ${{ github.workspace }}/.
     
 ###############################################################
-## Build solution
+## Build 
 ###############################################################
       - name: Build
-        run: dotnet build ${{ inputs.project }}.sln --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
+        run: dotnet build --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
         working-directory: ${{ github.workspace }}/.
 
       - name: List workspace build files
@@ -68,7 +68,7 @@ jobs:
         working-directory: ${{ github.workspace }}/.
 
 ###############################################################
-## Push to github nuget package
+## Push package
 ###############################################################
       - name: Remove existing GitHub Packages source if present
         run: dotnet nuget remove source github || true
