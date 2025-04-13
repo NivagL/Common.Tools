@@ -90,7 +90,7 @@ jobs:
         working-directory: ${{ github.workspace }}/.
    
       - name: Push to GitHub Packages
-        run: dotnet nuget push ${{ github.workspace }}/${{ inputs.project }}/bin/Release/*.nupkg --source github --skip-duplicate
+        run: dotnet nuget push ${{ github.workspace }}\${{ inputs.project }}\bin\Release\${{ inputs.project }}.*.nupkg --source github --skip-duplicate
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
         working-directory: ${{ github.workspace }}/.
