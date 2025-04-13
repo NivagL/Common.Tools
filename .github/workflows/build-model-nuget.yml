@@ -60,7 +60,7 @@ jobs:
         run: ls -R ${{ github.workspace }}/.
 
       - name: Create npm/src directory
-        run: mkdir -p ${{ github.workspace }}/npm/src
+        run: mkdir -p ${{ github.workspace }}/npm/src | true
         working-directory: ${{ github.workspace }}/.
 
         # run: dotnet build **/${{ inputs.project }}.csproj --configuration Release -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }} /t:TypescriptGen
