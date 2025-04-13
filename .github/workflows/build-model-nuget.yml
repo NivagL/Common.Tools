@@ -42,7 +42,7 @@ jobs:
           dotnet-version: '8.0.x'
     
       - name: Restore .NET tools
-        run: dotnet tool restore --configfile nuget.config || true
+        run: dotnet tool restore --configfile ${{ github.workspace }}/nuget.config
         working-directory: ${{ github.workspace }}/${{ inputs.project }}
     
       - name: Restore dependencies
