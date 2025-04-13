@@ -40,7 +40,7 @@ jobs:
         path: ${{ github.workspace }}
 
     - name: List downloaded files
-      run: ls -la ${{ github.workspace }}/npm
+      run: ls -la ${{ github.workspace }}
     
     - name: Generate index.ts for TypeScript models
       run: node generate-index.js
