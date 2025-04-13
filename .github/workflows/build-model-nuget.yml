@@ -46,7 +46,7 @@ jobs:
         working-directory: ${{ github.workspace }}/.
     
       - name: Restore dependencies
-        run: dotnet restore --configfile nuget.config
+        run: dotnet restore ${{ inputs.project }}.sln --configfile nuget.config
         working-directory: ${{ github.workspace }}/.
     
 ###############################################################
