@@ -33,6 +33,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+###############################################################
+## Dependencies
+###############################################################
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -80,6 +83,10 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
         working-directory: ${{ github.workspace }}/.
+
+###############################################################
+## Upload artifact for npm build
+###############################################################
 
       - name: List workspace output files
         run: ls -R ${{ github.workspace }}
