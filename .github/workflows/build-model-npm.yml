@@ -37,10 +37,14 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: model-typescript-artifact
+        path: ${{ github.workspace }}
+
+    - name: List downloaded files
+      run: ls -la ${{ github.workspace }}/npm
     
     - name: Generate index.ts for TypeScript models
       run: node generate-index.js
-      working-directory: ${{ github.workspace }}/npm.
+      working-directory: ${{ github.workspace }}
     
     - name: Build npm package
       run: |
