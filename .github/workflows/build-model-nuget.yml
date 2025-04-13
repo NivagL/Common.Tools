@@ -46,17 +46,27 @@ jobs:
         run: dotnet restore --configfile nuget.config
         working-directory: ${{ github.workspace }}/.
     
+###############################################################
+## Build solution
+###############################################################
       - name: Build
-        run: dotnet build --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
+        run: dotnet build ${{ inputs.project }}.sln --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
         working-directory: ${{ github.workspace }}/.
 
       - name: List workspace build files
         run: ls -R ${{ github.workspace }}
     
+###############################################################
+## Unit Test 
+###############################################################
+
       - name: Test
-        run: dotnet test --configuration Release --no-build
+        run: dotnet test --configuration Release --no-build --category Unit 
         working-directory: ${{ github.workspace }}/.
 
+###############################################################
+## Push to github nuget package
+###############################################################
       - name: Remove existing GitHub Packages source if present
         run: dotnet nuget remove source github || true
         working-directory: ${{ github.workspace }}/.
@@ -78,4 +88,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: model-typescript-artifact
-          path: ${{ github.workspace }}../npm'
+          path: ${{ github.workspace }}/npm'
