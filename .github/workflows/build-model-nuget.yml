@@ -62,7 +62,7 @@ jobs:
 
         # run: dotnet build **/${{ inputs.project }}.csproj --configuration Release -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }} /t:TypescriptGen
       - name: Build and Generate TypeScript files
-        run: dotnet tool run dotnet-typegen generate -c tgconfig.Release.json --project-folder ${{ github.workspace }}/${{ inputs.project }} --output-folder ${{ github.workspace }}/npm/src
+        run: dotnet tool run typegen generate -c tgconfig.Release.json --project-folder ${{ github.workspace }}/${{ inputs.project }} --output-folder ${{ github.workspace }}/npm/src
         working-directory: ${{ github.workspace }}/.
     
 ###############################################################
