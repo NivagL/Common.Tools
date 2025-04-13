@@ -1,4 +1,4 @@
-name: Build nuget package
+name: Build nuget model
 
 on:
   workflow_dispatch:
@@ -49,6 +49,9 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
         working-directory: ${{ github.workspace }}/.
+
+      - name: List workspace build files
+        run: ls -R ${{ github.workspace }}
     
       - name: Test
         run: dotnet test --configuration Release --no-build
@@ -68,7 +71,7 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
         working-directory: ${{ github.workspace }}/.
 
-      - name: Debug workspace
+      - name: List workspace output files
         run: ls -R ${{ github.workspace }}
 
       - name: Upload build artifacts
