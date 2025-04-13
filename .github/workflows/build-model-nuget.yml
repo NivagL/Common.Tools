@@ -56,6 +56,9 @@ jobs:
         run: dotnet build --configuration Release -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
         working-directory: ${{ github.workspace }}/.
 
+      - name: List build files
+        run: ls -R ${{ github.workspace }}/.
+
       - name: Create npm/src directory
         run: mkdir -p ${{ github.workspace }}/npm/src
         working-directory: ${{ github.workspace }}/.
@@ -64,6 +67,9 @@ jobs:
       - name: Build and Generate TypeScript files
         run: dotnet tool run dotnet-typegen generate -c tgconfig.Release.json --project-folder ${{ github.workspace }}/${{ inputs.project }} --output-folder ${{ github.workspace }}/npm/src
         working-directory: ${{ github.workspace }}/${{ inputs.project }}
+
+      - name: List typescript files
+        run: ls -R ${{ github.workspace }}/npm/src
     
 ###############################################################
 ## Unit Test 
