@@ -56,6 +56,10 @@ jobs:
         run: dotnet build --configuration Release --no-restore -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }}
         working-directory: ${{ github.workspace }}/.
 
+      - name: Build
+        run: dotnet build --configuration Release -p:Version=${{ inputs.version }} -p:AssemblyVersion=${{ inputs.version }} -p:FileVersion=${{ inputs.version }} -p:PackageVersion=${{ inputs.version }} -p:NuGetVersion=${{ inputs.version }} /t:TypescriptGen
+        working-directory: ${{ github.workspace }}/.
+
       - name: List workspace build files
         run: ls -R ${{ github.workspace }}
     
