@@ -43,7 +43,7 @@ jobs:
     
       - name: Restore .NET tools
         run: dotnet tool restore --configfile nuget.config || true
-        working-directory: ${{ github.workspace }}/.
+        working-directory: ${{ github.workspace }}/${{ inputs.project }}
     
       - name: Restore dependencies
         run: dotnet restore --configfile nuget.config
