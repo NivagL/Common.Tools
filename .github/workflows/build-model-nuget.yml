@@ -93,7 +93,7 @@ jobs:
 ## Upload artifact for npm build
 ###############################################################
       - name: List workspace output files
-        run: ls -R ${{ github.workspace }}/npm
+        run: ls -R ${{ github.workspace }}/npm/src
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

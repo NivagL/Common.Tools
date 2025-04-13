@@ -32,15 +32,15 @@ jobs:
         node-version: '18'
         registry-url: 'https://npm.pkg.github.com/'
         scope: '@${{ github.repository_owner }}'
-    
-    - name: Generate index.ts for TypeScript models
-      run: node generate-index.js
-      working-directory: ${{ github.workspace }}/.
 
     - name: Download typescript model files
       uses: actions/download-artifact@v4
       with:
         name: model-typescript-artifact
+    
+    - name: Generate index.ts for TypeScript models
+      run: node generate-index.js
+      working-directory: ${{ github.workspace }}/npm.
     
     - name: Build npm package
       run: |
