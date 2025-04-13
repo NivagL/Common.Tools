@@ -68,8 +68,11 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
         working-directory: ${{ github.workspace }}/.
 
+      - name: Debug workspace
+        run: ls -R ${{ github.workspace }}
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: model-typescript-artifact
-          path: './npm'
+          path: ${{ github.workspace }}/npm'
