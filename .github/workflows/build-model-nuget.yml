@@ -86,7 +86,7 @@ jobs:
         working-directory: ${{ github.workspace }}/.
         
       - name: Add GitHub Packages source
-        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_PACKAGES }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GH_PACKAGE }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
         working-directory: ${{ github.workspace }}/.
    
       - name: Push to GitHub Packages
