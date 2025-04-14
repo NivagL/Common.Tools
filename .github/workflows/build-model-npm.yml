@@ -71,5 +71,5 @@ jobs:
     - name: Publish to GitHub Packages
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES }}
+        NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGE }}
       working-directory: ${{ github.workspace }}/.
